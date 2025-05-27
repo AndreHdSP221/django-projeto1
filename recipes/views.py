@@ -11,3 +11,7 @@ def home(request): # http pede envia uma request e ele retorna um http response 
         'name': 'André Henrique'
     })
 
+def recipe(request, id): # http pede envia uma request e ele retorna um http response ou render
+    return render(request, 'recipes/pages/recipe-view.html', context={
+        'name': 'André Henrique'
+    })
