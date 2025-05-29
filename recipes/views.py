@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
+from utils.recipes.factory import make_recipe
 
 # Create your views here.
 # Cliente (Request) -> Servidor (Response)
@@ -8,10 +9,11 @@ from django.http import HttpResponse
 # HTTP REQUEST ou Render
 def home(request): # http pede envia uma request e ele retorna um http response ou render
     return render(request, 'recipes/pages/home.html', context={
-        'name': 'André Henrique'
+        "recipes": [make_recipe() for _ in range(10)],
     })
 
 def recipe(request, id): # http pede envia uma request e ele retorna um http response ou render
     return render(request, 'recipes/pages/recipe-view.html', context={
-        'name': 'André Henrique'
+        'recipe': make_recipe(),
+        'is_datail_page': True,
     })
