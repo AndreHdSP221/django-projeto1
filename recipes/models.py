@@ -20,13 +20,23 @@ class Recipe(models.Model):
     preparation_step_is_html = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(
+        default=False
+    )
     cover = models.ImageField(upload_to='recipe/covers/%Y/%m/%d/') # media/recipe/covers/%Y/%m/%d/ 
     category = models.ForeignKey(
-        category, on_delete=models.SET_NULL, null=True # on_delete seta Null caso a categoria for apagada
+        category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None #None == Null
     )
     author = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True # on_delete seta Null caso a categoria for apagada
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default= None
     )
 
     def __str__(self):

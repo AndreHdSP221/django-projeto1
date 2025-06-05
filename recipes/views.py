@@ -1,19 +1,44 @@
 from django.shortcuts import render
 
 from utils.recipes.factory import make_recipe
+from recipes.models import Recipe
 
-# Create your views here.
-# Cliente (Request) -> Servidor (Response)
-# Cliente (Request) <- Servidor (Response)
+def home(request):
 
-# HTTP REQUEST ou Render
-def home(request): # http pede envia uma request e ele retorna um http response ou render
+    recipes = Recipe.objects.filter(is_published = True).order_by('-id')
     return render(request, 'recipes/pages/home.html', context={
-        "recipes": [make_recipe() for _ in range(10)],
+        "recipes": recipes,
     })
 
-def recipe(request, id): # http pede envia uma request e ele retorna um http response ou render
+def category(request, category_id):
+    
+    recipes = Recipe.objects.filter(
+        category__id=category_id,
+        is_published = True,
+    )
+    contexto = {
+        "recipes": recipes,
+    }
+    return render(request, 'recipes/pages/category.html', contexto)
+
+def authors(request, author_id):
+    
+    recipes = Recipe.objects.filter(
+        author__id=author_id,
+        is_published = True,
+    )
+    contexto = {
+        "recipes": recipes,
+    }
+    return render(request, 'recipes/pages/authors.html', contexto)
+
+def recipe(request, id):
+
+    recipe = Recipe.objects.filter(
+        pk=id,
+        is_published = True,
+    ).order_by('-id').first()
     return render(request, 'recipes/pages/recipe-view.html', context={
-        'recipe': make_recipe(),
+        'recipe': recipe,
         'is_datail_page': True,
     })

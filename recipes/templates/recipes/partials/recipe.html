@@ -1,34 +1,65 @@
+
+<!-- Card completo -->
 <div class="recipe recipe-list-item">
+
+    <!-- Imagem -->
     <div class="recipe-cover">
         <a href="{% url "recipes:recipe" recipe.id %}">
             <img src="{{ recipe.cover.url }}" alt="Temporario">
         </a>
     </div>
+
+    <!-- Titulo -->
     <div class="recipe-title-container">
         <a href="{% url "recipes:recipe" recipe.id %}">
             <h2 class="recipe-title">{{ recipe.title }}</h2>
         </a>
     </div>
+
+    <!-- Autor - Data - Categoria -->
     <div class="recipe-author">
+
+        <!-- Autor -->
         <span class="recipe-author-item">
-            <i class="fas fa-user"></i>
-            {{ recipe.author.first_name }}
-        </span>
-        <span class="recipe-author-item">
-            <i class="fas fa-calendar-alt"></i>
-            {{ recipe.created_at|date:"d/m/Y" }} ás {{ recipe.created_at|date:"H:i" }}
-        </span>
-        <span class="recipe-author-item">
-            <a href="/recipes/category/cafe-da-manha/">
-                <i class="fas fa-layer-group"></i>
-                <span>{{ recipe.category.name }}</span>
+            <a class='recipe-author-link' href="{% url "recipes:author" recipe.author.id %}" >
+                <i class="fas fa-user"></i>
+                
+                    {% if recipe.author.first_name %}
+                        {{ recipe.author.first_name }} {{recipe.author.last_name}}
+                    {% else %}
+                        {{recipe.author.username}} 
+                    {% endif %}
             </a>
         </span>
+
+                <!-- Categoria -->
+        {% if recipe.category is not None %}
+
+            <span class="recipe-author-item">
+                <a href="{% url "recipes:category" recipe.category.id %}">
+                    <i class="fas fa-layer-group"></i>
+
+                    <span>{{ recipe.category.name }}</span>
+                    
+                </a>
+            </span>
+
+        {% endif %}
+
+        <!-- Data -->
+        <span class="recipe-author-item">
+            <i class="fas fa-calendar-alt"></i>
+            {{ recipe.created_at|date:"d/m/Y" }}
+        </span>
+
     </div>
 
+    <!-- Descrição da Receita -->
     <div class="recipe-content">
         <p>{{recipe.description}}</p>
     </div>
+
+    <!-- Preparo e Porções -->
     <div class="recipe-meta-container">
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title">
@@ -48,6 +79,7 @@
         </div>
     </div>
 
+    <!-- Para pagina inicial - Sumir na pagina da Receita -->
     {% if is_datail_page is not True %}
         <footer class="recipe-footer">
             <a href="{% url "recipes:recipe" recipe.id %}" class="recipe-read-more button button-dark button-full-width">

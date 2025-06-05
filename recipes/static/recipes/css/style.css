@@ -192,6 +192,7 @@ h6 {
 
 .recipe-author-item {
     color: var(--color-gray-4);
+    padding-right: var(--spacing-gutter-medium);
 }
 
 .recipe-author a {
